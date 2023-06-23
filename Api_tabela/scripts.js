@@ -1,29 +1,34 @@
-"use strict";
+const buscarUsuarios = async () => {
+    const response = await fetch('https://jsonplaceholder.typicode.com/users')
+    const usuarios = await response.json();
 
-const construir_tabela = ()=>{
-    fetch('https://jsonplaceholder.typicode.com/users')
-    .then(response=>response.json())
-    .then(json=>{
-        content.innerHTML = ''
-        json.forEach(element => {
-            let endereco = ''
-
-            Object.keys(element.address).forEach(e=>{
-                if(e != 'geo') endereco += ', ' + element.address[e]
-            })
-
-            endereco = endereco.replace(', ','')
-            
-            let conteudo = `<tr><td>${element.id}</td>
-            <td>${element.name}</td>
-            <td>${element.email}</td>
-            <td>${element.username}</td>
-            <td>${element.website}</td>
-            <td>${endereco}</td></tr>`
-
-            if(!filtro.value || conteudo.includes(filtro.value)) content.innerHTML += conteudo
-        });
-    })
+    return usuarios;
 }
 
-construir_tabela()
+const usuarioToRowHTML = (usuario) => {
+    return `
+    <tr>
+            <td>${usuario.id}</td>
+            <td>${usuario.name}</td>
+            <td>${usuario.email}</td>
+            <td>${usuario.username}</td>
+            <td>${usuario.website}</td>
+    </tr>`
+}
+const filtrar = (usuario) => {
+    const filtro = document.getElementById('filtro')
+    return usuario.name.toUpperCase().includes(filtro.value.toUpperCase())
+}
+
+const construir_tabela = async () => {
+
+    const usuarios = await buscarUsuarios()
+
+    const content = document.getElementById('content'); 
+    content.innerHTML = ""
+    
+    const usuariosHTML = usuarios.filter(filtrar).map(usuarioToRowHTML)
+
+    usuariosHTML.forEach((elementoHTML) => content.innerHTML += elementoHTML)
+
+}

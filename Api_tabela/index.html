@@ -10,12 +10,12 @@
     <title>Tabela</title>
 </head>
 
-<body>
+<body onload="construir_tabela()">
     <div class="container">
         <h1>User Table</h1>
         <hr>
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="filtro" oninput="construir_tabela()">
+            <input type="email" class="form-control" oninput="construir_tabela()" id="filtro">
             <label for="filtro">Pesquisa</label>
         </div>
         <table class="table table-striped ">
@@ -26,13 +26,12 @@
                     <th>Email</th>
                     <th>Username</th>
                     <th>Website</th>
-                    <th>Adress</th>
                 </tr>
             </thead>
             <tbody id="content"></tbody>
         </table>
     </div>
-    <script src="./index.js"></script>
+    <script src="scripts.js"></script>
 </body>
 
 </html>
